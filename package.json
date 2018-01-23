@@ -1,0 +1,36 @@
+{
+  "name": "ping-pong_league",
+  "version": "1.0.0",
+  "description": "A simple client/server application to manage ping pong games",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nistof/ping-pong_league.git"
+  },
+  "keywords": [
+    "ping",
+    "pong",
+    "league"
+  ],
+  "author": "Florian Martin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Nistof/ping-pong_league/issues"
+  },
+  "homepage": "https://github.com/Nistof/ping-pong_league#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "cors": "^2.8.4",
+    "eslint": "^4.16.0",
+    "express": "^4.16.2",
+    "nedb": "^1.8.0",
+    "winston": "^2.4.0"
+  },
+  "devDependencies": {
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.8.0"
+  }
+}
