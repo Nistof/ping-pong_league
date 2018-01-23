@@ -1,3 +1,5 @@
+/* eslint: no-underscore-dangle=off */
+
 const DataStore = require('nedb');
 const userModel = require('./user');
 
@@ -17,6 +19,14 @@ class Game {
     this.sets = sets;
   }
 }
+
+const userScore = (game, userId) =>
+  game.sets.reduce((acc, current) => {
+    if (game.player1.id === userId) {
+      return acc + current.score1;
+    }
+    return acc + current.score2;
+  }, 0);
 
 const getAll = () =>
   new Promise((resolve, reject) => {
@@ -68,8 +78,118 @@ const deleteGame = id =>
       else resolve(n);
     }));
 
-const getWinRate = (player) => {
+const getUserScore = (gameId, userId) =>
+  new Promise((resolve, reject) =>
+    db.findOne({ _id: gameId }, (err, game) => {
+      if (err) reject(Error('Internal error'));
+      else if (!game) reject(Error('No game found'));
+      else if (game.player1.id !== userId || game.player2.id !== userId) reject(Error('User not in game'));
+      else {
+        resolve(userScore(game, userId));
+      }
+    }));
 
+const getWin = (id) => {
+  // Get games where player is player1
+  const gamesP1Promise = new Promise((resolve, reject) => {
+    db.find({ 'player1._id': id }, (err, games) => {
+      if (err) reject(Error('Internal error'));
+      else resolve(games);
+    });
+  });
+
+  // Get games where player is player2
+  const gamesP2Promise = new Promise((resolve, reject) => {
+    db.find({ 'player2._id': id }, (err, games) => {
+      if (err) reject(Error('Internal error'));
+      else resolve(games);
+    });
+  });
+
+  return Promise.all([
+    gamesP1Promise,
+    gamesP2Promise,
+  ]).then(([gamesP1, gamesP2]) => {
+    let gamesWon = gamesP1.reduce((acc, current) => {
+      const pointsP1 = userScore(current, current.player1._id);
+      const pointsP2 = userScore(current, current.player2._id);
+      return acc + (pointsP1 > pointsP2 ? 1 : 0);
+    }, 0);
+
+    gamesWon += gamesP2.reduce((acc, current) => {
+      const pointsP1 = userScore(current, current.player1._id);
+      const pointsP2 = userScore(current, current.player2._id);
+      return acc + (pointsP1 < pointsP2 ? 1 : 0);
+    }, 0);
+
+    return Promise.resolve({ win: gamesWon });
+  });
+};
+
+const getLose = (id) => {
+  // Get games where player is player1
+  const gamesP1Promise = new Promise((resolve, reject) => {
+    db.find({ 'player1._id': id }, (err, games) => {
+      if (err) reject(Error('Internal error'));
+      else resolve(games);
+    });
+  });
+
+  // Get games where player is player2
+  const gamesP2Promise = new Promise((resolve, reject) => {
+    db.find({ 'player2._id': id }, (err, games) => {
+      if (err) reject(Error('Internal error'));
+      else resolve(games);
+    });
+  });
+
+  return Promise.all([
+    gamesP1Promise,
+    gamesP2Promise,
+  ]).then(([gamesP1, gamesP2]) => {
+    let gamesLose = gamesP1.reduce((acc, current) => {
+      const pointsP1 = userScore(current, current.player1._id);
+      const pointsP2 = userScore(current, current.player2._id);
+      return acc + (pointsP1 < pointsP2 ? 1 : 0);
+    }, 0);
+
+    gamesLose += gamesP2.reduce((acc, current) => {
+      const pointsP1 = userScore(current, current.player1._id);
+      const pointsP2 = userScore(current, current.player2._id);
+      return acc + (pointsP1 > pointsP2 ? 1 : 0);
+    }, 0);
+
+    return Promise.resolve({ lose: gamesLose });
+  });
+};
+
+const getUserPoints = (id) => {
+  // Get games where player is player1
+  const gamesP1Promise = new Promise((resolve, reject) => {
+    db.find({ 'player1._id': id }, (err, games) => {
+      if (err) reject(Error('Internal error'));
+      else resolve(games);
+    });
+  });
+
+  // Get games where player is player2
+  const gamesP2Promise = new Promise((resolve, reject) => {
+    db.find({ 'player2._id': id }, (err, games) => {
+      if (err) reject(Error('Internal error'));
+      else resolve(games);
+    });
+  });
+
+  return Promise.all([
+    gamesP1Promise,
+    gamesP2Promise,
+  ]).then(([gamesP1, gamesP2]) => {
+    let points = gamesP1.reduce((acc, current) => acc + userScore(current, current.player1._id), 0);
+
+    points += gamesP2.reduce((acc, current) => acc + userScore(current, current.player2._id), 0);
+
+    return Promise.resolve({ points });
+  });
 };
 
 module.exports = {
@@ -77,5 +197,8 @@ module.exports = {
   get,
   createGame,
   deleteGame,
-  getWinRate,
+  getWin,
+  getLose,
+  getUserScore,
+  getUserPoints,
 };

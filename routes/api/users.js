@@ -20,4 +20,19 @@ router.put('/', userController.addUser);
  */
 router.get('/:id', userController.getUser);
 
+/**
+ * GET /win/id : Get number of win
+ */
+router.get('/win/:id', userController.getWin);
+
+/**
+ * GET /lose/id : Get number of win
+ */
+router.get('/lose/:id', userController.getLose);
+
+/**
+ * GET /points/id : Get number of win
+ */
+router.get('/points/:id', userController.getUserPoints);
+
 module.exports = router;
