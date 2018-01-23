@@ -8,7 +8,7 @@ Express allow to setup a minimalistic Web infrastructure and is used a lot when 
 ### neDB
 
 neDB is a persistent noSQL database and its API is a subset of MongoDB's. 
-It is quite easy to use and really effichient.
+It is quite easy to use and really efficient.
 
 ### eslint
 
