@@ -2,7 +2,6 @@ const winston = require('winston');
 
 const express = require('express');
 const bodyParser = require('body-parser');
-const cors = require('cors');
 
 const userRoutes = require('./routes/api/users');
 const gameRoutes = require('./routes/api/games');

@@ -26,12 +26,12 @@ router.get('/:id', userController.getUser);
 router.get('/win/:id', userController.getWin);
 
 /**
- * GET /lose/id : Get number of win
+ * GET /lose/id : Get number of lose
  */
 router.get('/lose/:id', userController.getLose);
 
 /**
- * GET /points/id : Get number of win
+ * GET /points/id : Get number of points
  */
 router.get('/points/:id', userController.getUserPoints);
 
