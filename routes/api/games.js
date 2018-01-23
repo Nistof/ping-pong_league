@@ -19,7 +19,7 @@ router.put('/', (req, res) => {
 });
 
 /**
- * GET / : Get a single game
+ * GET /id : Get a single game
  */
 router.get('/:id', (req, res) => {
   const { id } = req.params;
@@ -27,9 +27,17 @@ router.get('/:id', (req, res) => {
 });
 
 /**
- * POST / : Update a game
+ * POST /id : Update a game
  */
 router.post('/:id', (req, res) => {
+  const { id } = req.params;
+
+});
+
+/**
+ * DELETE /id : Delete a game
+ */
+router.delete('/:id', (req, res) => {
   const { id } = req.params;
 
 });
