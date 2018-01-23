@@ -25,24 +25,22 @@ const createUser = (name) => {
   });
 };
 
-const getAll = () => {
-  return new Promise((resolve, reject) => {
+const getAll = () =>
+  new Promise((resolve, reject) => {
     db.find({}, (err, users) => {
       if (err) reject(Error('Internal error'));
       else resolve(users);
     });
   });
-};
 
-const get = (id) => {
-  return new Promise((resolve, reject) => {
+const get = id =>
+  new Promise((resolve, reject) => {
     db.findOne({ _id: id }, (err, user) => {
       if (err) reject(Error('Internal error'));
       else if (!user) reject(Error('User not found'));
       else resolve(user);
     });
   });
-};
 
 module.exports = {
   createUser,

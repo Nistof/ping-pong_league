@@ -21,11 +21,6 @@ router.put('/', gameController.addGame);
 router.get('/:id', gameController.getGame);
 
 /**
- * POST /id : Update a game
- */
-router.post('/:id', gameController.updateGame);
-
-/**
  * DELETE /id : Delete a game
  */
 router.delete('/:id', gameController.deleteGame);
