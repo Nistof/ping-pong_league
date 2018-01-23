@@ -5,15 +5,16 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 
 const userRoutes = require('./routes/api/users');
+const gameRoutes = require('./routes/api/games');
 
 const app = express();
 const port = process.env.PING_PONG_SERVER_PORT || 3000;
 
 // Server configuration
-app.use(cors);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/api/users', userRoutes);
+app.use('/api/games', gameRoutes);
 
 // Listen
 const server = app.listen(port, () => {

@@ -3,43 +3,31 @@ const express = require('express');
 const { Router } = express;
 
 const router = Router();
+const gameController = require('../../controllers/gameController');
 
 /**
  * GET / : Get all games
  */
-router.get('/', (req, res) => {
-
-});
+router.get('/', gameController.gameList);
 
 /**
  * PUT / : Add a game
  */
-router.put('/', (req, res) => {
-  
-});
+router.put('/', gameController.addGame);
 
 /**
  * GET /id : Get a single game
  */
-router.get('/:id', (req, res) => {
-  const { id } = req.params;
-
-});
+router.get('/:id', gameController.getGame);
 
 /**
  * POST /id : Update a game
  */
-router.post('/:id', (req, res) => {
-  const { id } = req.params;
-
-});
+router.post('/:id', gameController.updateGame);
 
 /**
  * DELETE /id : Delete a game
  */
-router.delete('/:id', (req, res) => {
-  const { id } = req.params;
-
-});
+router.delete('/:id', gameController.deleteGame);
 
 module.exports = router;
