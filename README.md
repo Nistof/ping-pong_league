@@ -19,6 +19,10 @@ A very popular open-source javascript library to build user interfaces.
 
 VueX is a state management pattern and a library for VueJS applications. It is usefull to share data accross components.
 
+### Axios
+
+Promise based client that allows to make HTTP requests easily. It is used in this project to allow the frontend to communicate with the backend.
+
 ### eslint
 
 A linter to ensure that the code produced is clean and easy to read.
