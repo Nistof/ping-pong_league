@@ -11,6 +11,14 @@ way to make a server side web application.
 neDB is a persistent noSQL database which stores data in files (Like SQLite) and its API is a subset of MongoDB's. 
 It is quite easy to use and really efficient.
 
+### VueJS
+
+A very popular open-source javascript library to build user interfaces.
+
+### VueX
+
+VueX is a state management pattern and a library for VueJS applications. It is usefull to share data accross components.
+
 ### eslint
 
 A linter to ensure that the code produced is clean and easy to read.
@@ -22,12 +30,15 @@ First, you need to install dependencies with the following command :
 npm install
 ```
 
+The interface has to be built before running the server :
+```
+npm run build
+```
+
 To launch the server :
 ```
 node server.js
 ```
-
-By default, the server is launched on the port 3000, but you can change it by setting the ```PING_PONG_SERVER_PORT``` environment variable.
 
 ## Endpoints
 
