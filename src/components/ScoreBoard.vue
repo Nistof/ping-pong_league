@@ -33,6 +33,7 @@ export default {
         const users = this.$store.state.users;
         return users
           .sort((a, b) => a.points < b.points)
+          .sort((a, b) => a.win < b.win)
           .filter((value, index) => index < 5);
       },
     },
