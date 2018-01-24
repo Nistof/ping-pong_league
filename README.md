@@ -3,11 +3,12 @@
 ## Package used
 ### Express
 
-Express allow to setup a minimalistic Web infrastructure and is used a lot when a NodeJS server is needed.
+Express allows to setup a minimalistic Web infrastructure and is commonly used when a NodeJS server is needed. It is a very simple
+way to make a server side web application.
 
 ### neDB
 
-neDB is a persistent noSQL database and its API is a subset of MongoDB's. 
+neDB is a persistent noSQL database which stores data in files (Like SQLite) and its API is a subset of MongoDB's. 
 It is quite easy to use and really efficient.
 
 ### eslint
@@ -26,7 +27,7 @@ To launch the server :
 node server.js
 ```
 
-By default, the server is launched on the port 3000, but you can change it by setting the ```PING_PONG_SERVER_PORT```.
+By default, the server is launched on the port 3000, but you can change it by setting the ```PING_PONG_SERVER_PORT``` environment variable.
 
 ## Endpoints
 

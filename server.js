@@ -12,6 +12,7 @@ const port = process.env.PING_PONG_SERVER_PORT || 3000;
 // Server configuration
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use('/', express.static(`${process.cwd()}/dist`));
 app.use('/api/users', userRoutes);
 app.use('/api/games', gameRoutes);
 
@@ -21,7 +22,6 @@ const server = app.listen(port, () => {
     'info',
     'Server listening',
     {
-      address: server.address().address,
       port: server.address().port,
     },
   );
