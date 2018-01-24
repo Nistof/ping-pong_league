@@ -22,7 +22,7 @@ class Game {
 
 const userScore = (game, userId) =>
   game.sets.reduce((acc, current) => {
-    if (game.player1.id === userId) {
+    if (game.player1._id === userId) {
       return acc + current.score1;
     }
     return acc + current.score2;
@@ -110,16 +110,16 @@ const getWin = (id) => {
     gamesP1Promise,
     gamesP2Promise,
   ]).then(([gamesP1, gamesP2]) => {
-    let gamesWon = gamesP1.reduce((acc, current) => {
-      const pointsP1 = userScore(current, current.player1._id);
-      const pointsP2 = userScore(current, current.player2._id);
-      return acc + (pointsP1 > pointsP2 ? 1 : 0);
-    }, 0);
+    const games = gamesP1.concat(gamesP2);
 
-    gamesWon += gamesP2.reduce((acc, current) => {
+    let gamesWon = games.reduce((acc, current) => {
       const pointsP1 = userScore(current, current.player1._id);
       const pointsP2 = userScore(current, current.player2._id);
-      return acc + (pointsP1 < pointsP2 ? 1 : 0);
+
+      if (current.player1._id === id) {
+        return acc + (pointsP1 >= pointsP2 ? 1 : 0);
+      }
+      return acc + (pointsP1 <= pointsP2 ? 1 : 0);
     }, 0);
 
     return Promise.resolve({ win: gamesWon });
@@ -147,16 +147,16 @@ const getLose = (id) => {
     gamesP1Promise,
     gamesP2Promise,
   ]).then(([gamesP1, gamesP2]) => {
-    let gamesLose = gamesP1.reduce((acc, current) => {
-      const pointsP1 = userScore(current, current.player1._id);
-      const pointsP2 = userScore(current, current.player2._id);
-      return acc + (pointsP1 < pointsP2 ? 1 : 0);
-    }, 0);
+    const games = gamesP1.concat(gamesP2);
 
-    gamesLose += gamesP2.reduce((acc, current) => {
+    const gamesLose = games.reduce((acc, current) => {
       const pointsP1 = userScore(current, current.player1._id);
       const pointsP2 = userScore(current, current.player2._id);
-      return acc + (pointsP1 > pointsP2 ? 1 : 0);
+
+      if (current.player1._id === id) {
+        return acc + (pointsP1 <= pointsP2 ? 1 : 0);
+      }
+      return acc + (pointsP1 >= pointsP2 ? 1 : 0);
     }, 0);
 
     return Promise.resolve({ lose: gamesLose });
@@ -184,9 +184,14 @@ const getUserPoints = (id) => {
     gamesP1Promise,
     gamesP2Promise,
   ]).then(([gamesP1, gamesP2]) => {
-    let points = gamesP1.reduce((acc, current) => acc + userScore(current, current.player1._id), 0);
+    const games = gamesP1.concat(gamesP2);
 
-    points += gamesP2.reduce((acc, current) => acc + userScore(current, current.player2._id), 0);
+    const points = games.reduce((acc, current) => {
+      if (current.player1._id === id) {
+        return acc + userScore(current, current.player1._id);
+      }
+      return acc + userScore(current, current.player2._id);
+    }, 0);
 
     return Promise.resolve({ points });
   });

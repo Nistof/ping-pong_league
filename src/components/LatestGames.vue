@@ -33,13 +33,13 @@ export default {
   },
   methods: {
     gameScoreP1(game) {
-      return game.sets.reduce((acc, current) => acc + current.score1, 0);
+      return game.sets.reduce((acc, current) => acc + (current.score1 > current.score2 ? 1 : 0), 0);
     },
     gameScoreP2(game) {
-      return game.sets.reduce((acc, current) => acc + current.score2, 0);
+      return game.sets.reduce((acc, current) => acc + (current.score2 > current.score1 ? 1 : 0), 0);
     },
     deleteGame(game) {
-      this.$store.commit('deleteGame', { id: game.id });
+      this.$store.commit('deleteGame', game);
     },
   },
 };

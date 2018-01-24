@@ -77,19 +77,24 @@ const store = new Vuex.Store({
         )
         .then((res) => {
           const game = res.data;
-          state.games.push(new Game(
+          state.games.unshift(new Game(
             game._id,
             game.player1,
             game.player2,
             game.sets));
 
-          state.updateUser(state, game.player1);
-          state.updateUser(state, game.player2);
+          this.commit('updateUser', game.player1);
+          this.commit('updateUser', game.player2);
         });
     },
     deleteGame(state, obj) {
       state.games = state.games.filter(value => value.id !== obj.id);
-      Axios.delete(`http://localhost:3000/api/games/${obj.id}`);
+      Axios
+        .delete(`http://localhost:3000/api/games/${obj.id}`)
+        .then(() => {
+          this.commit('updateUser', obj.player1);
+          this.commit('updateUser', obj.player2);
+        });
     },
     updateUser(state, obj) {
       // Remove user
@@ -100,7 +105,7 @@ const store = new Vuex.Store({
         Axios.get(`http://localhost:3000/api/users/lose/${obj._id}`),
         Axios.get(`http://localhost:3000/api/users/points/${obj._id}`),
       ]).then(([resWin, resLose, resPoints]) =>
-        state.user.push(
+        state.users.push(
           new User(
             obj._id,
             obj.name,

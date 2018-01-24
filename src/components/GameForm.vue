@@ -17,8 +17,8 @@
     <h3>Score</h3>
     <!-- eslint-disable-next-line vue/require-v-for-key -->
     <div v-for="set in sets">
-      <input type="number" v-bind:value="set[0]"/>
-      <input type="number" v-bind:value="set[1]"/>
+      <input type="number" v-bind:value="set[0]" v-model="set[0]"/>
+      <input type="number" v-bind:value="set[1]" v-model="set[1]"/>
     </div>
 
     <button class="btn" v-on:click="addSet">Add Set</button>
@@ -54,11 +54,12 @@ export default {
     },
     addGame() {
       if (this.player1 && this.player2 && this.player1 !== this.player2) {
+        console.log(this.sets);
         this.$store.commit('addGame',
           {
             player1: this.player1,
             player2: this.player2,
-            sets: this.sets,
+            sets: this.sets.map(set => set.map(value => parseInt(value))),
           },
         );
 

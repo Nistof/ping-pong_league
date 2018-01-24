@@ -9,6 +9,8 @@
 </template>
 
 <script>
+import store from './store';
+
 import ScoreBoard from './components/ScoreBoard';
 import PlayerForm from './components/PlayerForm';
 import GameForm from './components/GameForm';
@@ -16,6 +18,10 @@ import LatestGames from './components/LatestGames';
 
 export default {
   name: 'App',
+  store,
+  beforeCreate() {
+    this.$store.dispatch('retrieveData');
+  },
   components: {
     ScoreBoard,
     PlayerForm,
